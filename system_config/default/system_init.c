@@ -182,12 +182,7 @@ void SYS_Initialize ( void* data )
 
     /* Initialize System Services */
     SYS_INT_Initialize();  
-
     
-    //Disable SPI
-    PLIB_SPI_Disable(MY_SPI_ID);
-    
-
     /* Initialize the Application */
     APP_Initialize();
 }
