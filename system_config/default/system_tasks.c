@@ -84,14 +84,17 @@ static void _APP_Tasks(void);
 void SYS_Tasks ( void )
 {
     /* Create OS Thread for Sys Tasks. */
-    xTaskCreate((TaskFunction_t) _SYS_Tasks,
-                "Sys Tasks",
-                1024, NULL, 1, NULL);
-
-    /* Create OS Thread for APP Tasks. */
-    xTaskCreate((TaskFunction_t) _APP_Tasks,
-                "APP Tasks",
-                1024, NULL, 1, NULL);
+//    xTaskCreate((TaskFunction_t) _SYS_Tasks,
+//                "Sys Tasks",
+//                1024, NULL, 1, NULL);
+//
+//    /* Create OS Thread for APP Tasks. */
+//    xTaskCreate((TaskFunction_t) _APP_Tasks,
+//                "APP Tasks",
+//                1024, NULL, 1, NULL);
+    
+    /*Initialize system tasks.*/
+    
 
     /**************
      * Start RTOS * 

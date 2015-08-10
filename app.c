@@ -113,12 +113,9 @@ APP_DATA appData;
 
 void APP_Initialize ( void )
 {
-    /* Place the App state machine in its initial state. */
-    appData.state = APP_STATE_INIT;
-    
-    /* TODO: Initialize your application's state machine and other
-     * parameters.
-     */
+    /*Initialize the hardware resources. These should be functions which occur
+     before the RTOS gets started. So, no RTOS functionality.*/
+    codec_init();
 }
 
 
@@ -140,8 +137,6 @@ void APP_Tasks ( void )
         {
             break;
         }
-
-        /* TODO: implement your application state machine.*/
 
         /* The default state should never be executed. */
         default:

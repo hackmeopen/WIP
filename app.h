@@ -59,6 +59,11 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system_config.h"
 #include "system_definitions.h"
 #include "peripheral/peripheral.h"
+#include "FreeRTOS.h"
+
+#define SAMPLE_RATE 96000 //96kHz
+#define BIT_DEPTH   24
+
 
 // *****************************************************************************
 // *****************************************************************************

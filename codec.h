@@ -28,8 +28,9 @@ void codec_init(void);
 #define DISABLE_I2C_CODEC_INT  PLIB_INT_SourceDisable(INT_ID_0, I2C_CODEC_INT_SOURCE)
 
 /*SPI Definitions*/
-#define CODEC_SPI_ID             SPI_ID_1
-#define CODEC_SPI_BAUD_RATE      19200000
+#define CODEC_SPI_ID            SPI_ID_1
+#define CODEC_SPI_BAUD_RATE     SAMPLE_RATE*BIT_DEPTH*2
+#define CODEC_MCLK_RATE         SAMPLE_RATE*128//Oversampling clock.
 
 #define SPI1_MISO_PORT          PORT_CHANNEL_E
 #define SPI1_MISO_PIN           PORTS_BIT_POS_5
