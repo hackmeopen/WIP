@@ -9,9 +9,15 @@
  to interact with the WM8731 codec.*/
 void codec_init(void){
     
-    PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0, I2C_SDA_PORT, I2C_SDA_PIN);
+    //Port direction settings
+    PLIB_PORTS_RemapOutput(PORTS_ID_0, SPI1_MOSI_PPS_FUNC_MASK, SPI1_MOSI_PPS_PORT_MASK);
+    PLIB_PORTS_RemapInput(PORTS_ID_0, SPI1_MISO_PPS_FUNC_MASK, SPI1_MISO_PPS_PORT_MASK);
+    PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0, CODEC_MCLK_PPS_FUNC_MASK, CODEC_MCLK_PPS_PORT_MASK);
     
-    
+    //Port Pin Select Settings
+    PLIB_PORTS_RemapOutput(PORTS_ID_0, OUTPUT_FUNC_SDO1, OUTPUT_PIN_RPG7);
+    PLIB_PORTS_RemapInput(PORTS_ID_0, INPUT_FUNC_SDI1, INPUT_PIN_RPE5);
+    PLIB_PORTS_RemapOutput(PORTS_ID_0, OUTPUT_FUNC_REFCLKO, OUTPUT_PIN_RPB9);
     
     //Set up the I2C bus and configure the codec.
     PLIB_I2C_BaudRateSet(CODEC_I2C_ID, SYS_CLK_BUS_PERIPHERAL_1, CODEC_I2C_BAUD_RATE);
