@@ -8,16 +8,14 @@
 #ifndef LEDS_H
 #define	LEDS_H
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
+/*The LEDs use the same SPI bus as the flash memory. We only have to transmit 
+ two bytes to write all the LEDs. All the initialization takes place over there.
+ We will probably have to duplicate some names to use the same resource but know
+ that the configuration happens in mem.h. 
+ There will have be a mutex to keep the devices from fighting over the bus but
+ there are only 16 LEDS. */
 
 
-
-
-#ifdef	__cplusplus
-}
-#endif
 
 #endif	/* LEDS_H */
 

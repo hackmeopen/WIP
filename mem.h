@@ -5,6 +5,8 @@
  * Created on August 11, 2015, 9:10 PM
  */
 
+#include "app.h"
+
 #ifndef MEM_H
 #define	MEM_H
 
@@ -15,7 +17,7 @@
 
 #define SPI2_MOSI_PORT PORT_CHANNEL_G
 #define SPI2_MOSI_PIN  PORTS_BIT_POS_8
-#define SPI2_MOSI_PPS_FUNC_MASK  PORTS_REMAP_FUNCTION_SDO2
+#define SPI2_MOSI_PPS_FUNC_MASK  OUTPUT_FUNC_SDO2
 #define SPI2_MOSI_PPS_PORT_MASK  OUTPUT_PIN_RPG8
 
 #define SPI2_SCK_PORT   PORT_CHANNEL_G

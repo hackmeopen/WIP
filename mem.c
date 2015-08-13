@@ -15,7 +15,6 @@ void memInit(void){
     PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0, SPI2_MISO_PORT, SPI2_MISO_PIN);
     PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0, SPI2_MOSI_PORT, SPI2_MOSI_PIN);
     PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0, SPI2_SCK_PORT, SPI2_SCK_PIN);
-    PLIB_PORTS_PinDirectionOutputSet(PORTS_ID_0, CODEC_MCLK_PORT, CODEC_MCLK_PIN);
     
     //Port Pin Select Settings
     PLIB_PORTS_RemapOutput(PORTS_ID_0, SPI2_MOSI_PPS_FUNC_MASK, SPI2_MOSI_PPS_PORT_MASK);
