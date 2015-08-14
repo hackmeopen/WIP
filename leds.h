@@ -15,7 +15,8 @@
  There will have be a mutex to keep the devices from fighting over the bus but
  there are only 16 LEDS. */
 
-
+#define LED_SR_LOAD_PORT          PORT_CHANNEL_D
+#define LED_SR_LOAD_PIN           PORTS_BIT_POS_1
 
 #endif	/* LEDS_H */
 
