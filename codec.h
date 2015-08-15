@@ -10,8 +10,6 @@
 #ifndef CODEC_H
 #define	CODEC_H
 
-void codec_init(void);
-
 /*I2C Definitions*/
 #define CODEC_I2C_ID                I2C_ID_1
 #define CODEC_I2C_BAUD_RATE         100000
@@ -72,6 +70,10 @@ void codec_init(void);
 #define CLEAR_SPI_CODEC_DMA_RX_INT        PLIB_INT_SourceFlagClear(INT_ID_0, INT_SOURCE_DMA_3)
 #define ENABLE_SPI_CODEC_DMA_RX_INT       PLIB_INT_SourceEnable(INT_ID_0, INT_SOURCE_DMA_3)
 #define DISABLE_SPI_CODEC_DMA_RX_INT      PLIB_INT_SourceDisable(INT_ID_0, INT_SOURCE_DMA_3)
+
+/*Externally accessible functions.*/
+void codecInit(void);
+void createSPICodecTask(void);
 
 #endif	/* CODEC_H */
 

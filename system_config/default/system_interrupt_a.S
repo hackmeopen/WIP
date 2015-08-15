@@ -44,6 +44,56 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include <xc.h>
 
 #include "ISR_Support.h"
+    
+    .set	nomips16
+    .set 	noreorder
+    
+    .extern vDMA2InterruptHandler
+    .extern vDMA3InterruptHandler
+    .extern vSPI1InterruptHandler
+    
+    .global vDMA2InterruptWrapper
+    .global vDMA3InterruptWrapper
+    .global vSPI1InterruptWrapper
+    
+	.set	noreorder
+	.set 	noat
+	.ent	vSPI1InterruptWrapper
+
+    vSPI1InterruptWrapper:
+
+	portSAVE_CONTEXT
+	jal vSPI1InterruptHandler
+	nop
+	portRESTORE_CONTEXT
+
+	.end	vSPI1InterruptWrapper
+
+	.set	noreorder
+	.set 	noat
+	.ent	vDMA2InterruptWrapper
+
+    vDMA2InterruptWrapper:
+
+	portSAVE_CONTEXT
+	    jal vDMA2InterruptHandler
+	    nop
+	    portRESTORE_CONTEXT
+
+	    .end	vDMA2InterruptWrapper
+
+.set	noreorder
+	.set 	noat
+	.ent	vDMA3InterruptWrapper
+
+vDMA3InterruptWrapper:
+
+    portSAVE_CONTEXT
+	jal vDMA3InterruptHandler
+	nop
+	portRESTORE_CONTEXT
+
+	.end	vDMA3InterruptWrapper
 
 /*******************************************************************************
  End of File

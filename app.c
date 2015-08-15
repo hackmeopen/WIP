@@ -54,7 +54,9 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 #include "app.h"
-
+#include "codec.h"
+#include "mem.h"
+#include "leds.h"
 
 APP_DATA appData;
 
@@ -80,7 +82,13 @@ void APP_Initialize ( void )
 {
     /*Initialize the hardware resources. These should be functions which occur
      before the RTOS gets started. So, no RTOS functionality.*/
-    codec_init();
+    codecInit();
+    memInit();
+    
+    
+    /*Create the tasks. Task functions are located in each appropriate .c file.
+     The functions implement all the behaviors.*/
+    createSPICodecTask();
 }
 
 

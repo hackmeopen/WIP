@@ -60,9 +60,26 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system_definitions.h"
 #include "peripheral/peripheral.h"
 #include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
 
 #define SAMPLE_RATE 96000 //96kHz
 #define BIT_DEPTH   24
+
+/*Semaphores. These are global signals to send signals between tasks and from
+ ISRs to tasks.*/
+SemaphoreHandle_t xSemaphoreSPITxSemaphore;
+SemaphoreHandle_t xSemaphoreSPIMemTxSemaphore;
+SemaphoreHandle_t xSemaphoreSPIMemRxSemaphore;
+SemaphoreHandle_t xSemaphoreSwitchPressed;
+SemaphoreHandle_t xSemaphoreEncSwitchPressed;
+SemaphoreHandle_t xSemaphoreMGC3130DataReady;
+SemaphoreHandle_t xSemaphoreI2CHandler;
+SemaphoreHandle_t xSemaphoreSampleTimer;
+SemaphoreHandle_t xSemaphoreDMA_0_RX;
+SemaphoreHandle_t xSemaphoreDMA_0_TX;
+SemaphoreHandle_t xSemaphoreDMA_3_RX;
+SemaphoreHandle_t xSemaphoreDMA_2_TX;
 
 
 // *****************************************************************************

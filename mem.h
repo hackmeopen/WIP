@@ -82,5 +82,11 @@
 #define FLASH_CMD_READ                  0x03
 #define FLASH_CMD_READ_STATUS_REG       0x05
 
+void memInit(void);
+void vDMA0InterruptHandler(void);
+void vDMA1InterruptHandler(void);
+void vTaskSPIMemory(void * pvParameters);
+
+
 #endif	/* MEM_H */
 

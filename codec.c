@@ -5,9 +5,79 @@
 #include "app.h"
 #include "codec.h"
 
+/*Local functions*/
+void codecConfig(void);
+void vDMA2InterruptHandler(void);
+void vDMA3InterruptHandler(void);
+void vSPI1InterruptHandler(void);
+void vTaskSPICodec(void * pvParameters);
+
+/*This is a fairly important task?*/
+#define SPI_CODEC_TASK_PRIORITY  4
+
+/*Interrupt vector association*/
+void __attribute__( (interrupt(ipl3auto), vector(44))) vDMA2InterruptWrapper( void );
+void __attribute__( (interrupt(ipl3auto), vector(45))) vDMA3InterruptWrapper( void );
+void __attribute__( (interrupt(ipl3auto), vector(30))) vSPI1InterruptWrapper( void );
+
+/*The SPI codec tasks handles inputs and outputs with the WM8731 codec. The 
+ task must keep the data organized and moving, and notify other tasks when 
+ a buffer is full.*/
+void vTaskSPICodec(void * pvParameters){
+ 
+    //Configure the codec. Uses I2C to set up the codec properly.
+    codecConfig();
+    
+    for(;;){
+    
+    }
+}
+
+void vSPI1InterruptHandler(void){
+    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
+    if(PLIB_INT_SourceFlagGet(INT_ID_0, INT_SOURCE_SPI_1_TRANSMIT)){
+        PLIB_INT_SourceFlagClear(INT_ID_0, INT_SOURCE_SPI_1_TRANSMIT);
+        DISABLE_SPI1_TX_INT;
+        xSemaphoreGiveFromISR(xSemaphoreSPITxSemaphore,&xHigherPriorityTaskWoken);
+    }
+    else if(PLIB_INT_SourceFlagGet(INT_ID_0, INT_SOURCE_SPI_1_RECEIVE)){
+       // DISABLE_SPI1_RX_INT;
+        PLIB_INT_SourceFlagClear(INT_ID_0, INT_SOURCE_SPI_1_RECEIVE);
+        xSemaphoreGiveFromISR(xSemaphoreSPITxSemaphore,&xHigherPriorityTaskWoken);
+    }
+
+    //Switch to higher priority task if necessary. This line must be last.
+    portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+}
+
+void vDMA2InterruptHandler(void){
+    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
+//    CLEAR_SPI_DACADC_DMA_TX_INT;
+//    PLIB_DMA_ChannelXINTSourceFlagClear(DMA_ID_0, SPI_DACADC_TX_DMA_CHANNEL, DMA_INT_BLOCK_TRANSFER_COMPLETE);
+//
+//    xSemaphoreGiveFromISR(xSemaphoreDMA_2_TX, &xHigherPriorityTaskWoken);
+
+    //Switch to higher priority task if necessary. This line must be last.
+    portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+}
+
+void vDMA3InterruptHandler(void){
+    portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+
+//    CLEAR_SPI_DACADC_DMA_RX_INT;
+//    PLIB_DMA_ChannelXINTSourceFlagClear(DMA_ID_0, SPI_DACADC_RX_DMA_CHANNEL, DMA_INT_BLOCK_TRANSFER_COMPLETE);
+//
+//    xSemaphoreGiveFromISR(xSemaphoreDMA_3_RX, &xHigherPriorityTaskWoken);
+
+    //Switch to higher priority task if necessary. This line must be last.
+    portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+}
+
 /*This function sets up all the hardware and software resources which will be used
  to interact with the WM8731 codec.*/
-void codec_init(void){
+void codecInit(void){
     
     //Port direction settings
     PLIB_PORTS_RemapOutput(PORTS_ID_0, SPI1_MOSI_PPS_FUNC_MASK, SPI1_MOSI_PPS_PORT_MASK);
@@ -55,7 +125,7 @@ void codec_init(void){
 
 /*The WM8731 codec requires some I2C register configuration to operate properly.
  This function takes care of that jazz.*/
-void codec_config(void){
+void codecConfig(void){
 //    /*Check to see if the Send the start bit.*/
 //    if(PLIB_I2C_BusIsIdle(CODEC_I2C_ID)){
 //        PLIB_I2C_MasterStart(CODEC_I2C_ID);
@@ -101,3 +171,17 @@ void codec_config(void){
 //    xSemaphoreTake(xSemaphoreI2CHandler,portMAX_DELAY);//Stop bit complete
 //    MGC3130_TS_PIN_HIGH;   
 }
+
+void createSPICodecTask(void){
+    
+    xTaskCreate(vTaskSPICodec,/*Function Name*/
+		(const signed char *)"SPI Codec Handler",/*Handle*/
+                150,/*Stack Depth*/
+		NULL,/*Task Parameter*/
+		SPI_CODEC_TASK_PRIORITY,//TASK_SWITCH_PRIORITY,/*Priority*/
+		NULL/*Task Handle*/
+               );   
+}
+
+
+
